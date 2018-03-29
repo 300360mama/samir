@@ -1,0 +1,65 @@
+
+
+<thead class="thead-dark">
+    <tr>
+      <th scope="col">№</th>
+      <th scope="col">Название проверки</th>
+      <th scope="col">Статус</th>
+      <th scope="col"></th>
+      <th scope="col">Текущее состояние</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+    <?php foreach ($resultArray as $key => $val): ?>
+
+      <?php
+      
+      if($$key == 'error'){
+
+        $btm = "bg-danger"; 
+
+      }else{
+
+        $btm =  "bg-success";  
+      }
+
+      ?>
+        
+    <tr>
+      <td rowspan="2">1</td>
+      <td rowspan="2">
+        <?=$val['testName']?>  
+      </td>
+      <td rowspan="2" class="<?= $btm ?>">
+        <?=$val[$$key]['status']?>
+      </td>
+      <td>
+        Состояние
+      </td>
+      <td>
+        <?php if($key == 'sizeRobots'): ?>
+          <?=sprintf($val[$$key]['state'], $sizeKb)?>
+        <?php else: ?>
+          <?=sprintf($val[$$key]['state'], $code)?>
+        <?php endif; ?>
+      </td>
+    </tr>
+    <tr>
+      
+      <td>
+        Рекомендации
+      </td>
+      <td>
+        <?=$val[$$key]['recommendations']?>
+          
+        </td>
+    </tr>
+
+    <?php endforeach;?>
+    
+
+    
+  
+  </tbody>
