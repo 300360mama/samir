@@ -33,6 +33,12 @@ class Validate
 
 		$urlRoot = $matches[0];
 
+		if($urlRoot[strlen($urlRoot)-1] !== '/'){
+			$urlRoot = $matches[0].'/';
+		}
+
+		
+
 		return $urlRoot;
 
 	}

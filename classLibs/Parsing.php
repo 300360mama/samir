@@ -25,10 +25,15 @@ class Parsing
       return $res;
     }
 
-    public function getCodeResponce(array $headers){
+    public function getCodeResponce($headers){
+      
 
-      return $headers[0];
+      if(is_array($headers)){
+         return $headers[0];
 
+      }
+     
+     return 0;
     }
 
 

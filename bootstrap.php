@@ -14,8 +14,10 @@ $isRobots = 'error';
 $isHost = 'error';
 $quantityHost = 'error';
 $sizeRobots = 'error';
+$sizeKb = 0;
 $isSitemap = 'error';
 $codeResponse = 'error';
+$code = 0;
 
 
 
@@ -23,25 +25,37 @@ $codeResponse = 'error';
 $validate = new Validate($_POST['urlData']);
 $url = $validate->validate();
 
+
 if (!$url) {
 	 echo -1;
 }else{
 
 	
 	$parsing = new Parsing();
-
 	$robotsUrl = $url.'robots.txt';
 	$headers = @get_headers($robotsUrl);
+	$code = $parsing->getCodeResponce($headers);
 
-	if ($headers) {
+	if ($headers && $parsing->isFile($headers) ) {
 
-		$curl = new Curl();
 		$file = fopen('robots.txt', 'w');
-	    $curl->getCurl($robotsUrl, $file);
+
+		if(function_exists('curl_init'))
+        {
+        	$curl = new Curl();
+		    
+	        $myCurl = $curl->getCurl($robotsUrl, $file);
+        }else{
+        	$fileData = @file($robotsUrl);
+
+        	$fileWrite = file_put_contents('robots.txt', $fileData);
+        }		
+
+
 	    fclose($file);
 
 	    $isRobots = 'ok';
-	    $codeResponse = $parsing->isFile($headers) ? 'ok' : 'error';
+	    $codeResponse = 'ok';
 	    $code = $parsing->getCodeResponce($headers);
         $size = filesize('robots.txt');
         $sizeKb = ceil($size/1024);
@@ -75,7 +89,8 @@ if (!$url) {
 	   
 	    }
 
-	    require_once 'htmlTemplate/table.html';
+
+	   require_once 'htmlTemplate/table.html';
    
 		
 	}else{
